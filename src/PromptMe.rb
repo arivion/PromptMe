@@ -4,47 +4,75 @@
 # Recreation of project originally created in Python.
 
 # Story has a name and array of associated characters.
+
 Story = Struct.new(:name, :characters)
 
-# Gives prompt related to the relationship between characters.
+# Picks a random story and two characters from it.
 #
-# universes: array of Universes
-def relationship(stories)
+# stories: array of stories
+#
+# return: array with [story name, character 1, character 2]
+def pick(stories)
 
-  case rand(2)
-    when 0
-      time = 'early'
+  # Choose a story and two characters from it.
+  story_num = rand(stories.length)
+  story_pick = stories[story_num]
+  story_name = story_pick.name
+
+  character_num = rand(story_pick.characters.length)
+  character_pick = story_pick.characters[character_num]
+
+  friend_num = rand(story_pick.characters.length)
+  friend_pick = story_pick.characters[friend_num]
+
+  return [story_name, character_pick, friend_pick]
+end
+
+
+#Gives prompt related to the plot of the story.
+def plot(story, character)
+
+  case rand(3)
     when 1
+      time = 'expository'
+    when 2
+      time = 'climactic'
+    else
+      time = 'resolving'
+  end
+
+  puts('Write about an important ' + time + ' event in ' + story +  ' that involved ' + character + '.')
+end
+
+
+# Gives prompt related to the relationship between characters.
+def relationship(story, character, friend)
+
+  case rand(3)
+    when 1
+      time = 'early'
+    when 2
       time = 'developing'
     else
       time = 'ultimate'
   end
-  # Choose a story and two characters from it.
-  story_num = rand(stories.length - 1)
-  story_pick = stories[story_num]
-  story_name = story_pick.name
-  character_num = rand(story_pick.characters.length - 1)
-  character_pick = story_pick.characters[character_num]
-  friend_num = rand(story_pick.characters.length - 1)
-  friend_pick = story_pick.characters[friend_num]
 
-  if character_pick == friend_pick
-    puts('Write about ' + character_pick + ' from ' + story_name + ' and their ' + time +
-             ' relationship with themselves.')
+  if character == friend
+    puts('Write about ' + character + ' from ' + story + ' and their ' + time +
+             ' self-image.')
   else
-    puts('Write about ' + character_pick + ' from ' + story_name + ' and their ' + time +
-           ' relationship with ' + friend_pick + '.')
+    puts('Write about the ' + time + ' relationship between ' + character +  ' and ' + friend + ' from ' + story + '.')
   end
 end
 
 def main
-  puts('Enter filename:')
-  filename = gets.chomp
   stories = []
+  puts('Enter filename:')
+ # filename = gets.chomp
 
   # Open the file, with each line formatted as such:
   # Story Name, Character 1, Character 2 ...
-  File.open(filename, 'rb').each do |line|
+  File.open('example.txt', 'rb').each do |line|
     name, *chars = line.split(', ')
     # Remove newline character from the last name
     chars[chars.length - 1] = chars[chars.length - 1].strip
@@ -52,7 +80,14 @@ def main
     stories.insert(0, example)
   end
 
-  relationship(stories)
+  choice = pick(stories)
+  case rand(2)
+    when 1
+      relationship(choice[0], choice[1], choice[2])
+    else
+      plot(choice[0], choice[1])
+  end
+
 end
 
 main
