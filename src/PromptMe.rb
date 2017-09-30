@@ -40,7 +40,7 @@ def plot(story, character)
     else
       time = 'resolving'
   end
-
+  #Output
   puts('Write about an important ' + time + ' event in ' + story +  ' that involved ' + character + '.')
 end
 
@@ -56,7 +56,7 @@ def relationship(story, character, friend)
     else
       time = 'ultimate'
   end
-
+  #Output
   if character == friend
     puts('Write about ' + character + ' from ' + story + ' and their ' + time +
              ' self-image.')
@@ -65,37 +65,66 @@ def relationship(story, character, friend)
   end
 end
 
-def main
-  stories = []
-  puts('Enter filename:')
- # filename = gets.chomp
+#Gives prompt related to a character's past
+def past(story, character)
 
+  case rand(2)
+    when 1
+      mem = 'a pleasant'
+    else
+      mem = 'an unpleasant'
+  end
+  #Output
+  puts('Write about ' + mem + ' memory of ' + character + ' from ' + story + '.')
+end
+
+#Gives prompt related to a character's future
+def future(story, character, friend)
+
+  case rand(3)
+    when 1
+      puts('How and when does ' + character + ' from ' + story + ' die?')
+    when 2
+      puts('What does ' + character + ' from ' + story + ' do after the events of the story?')
+    else
+      puts('What happens between ' + character + ' and ' + friend + ' from ' + story + ' after the events of the story?')
+  end
+end
+
+#Main function
+def main
+
+  stories = []
   # Open the file, with each line formatted as such:
-  # Story Name, Character 1, Character 2 ...
-  File.open('example.txt', 'rb').each do |line|
+  # Story Name: Character 1, Character 2 ...
+  File.open('stories.txt', 'rb').each do |line|
     name, *chars = line.split(', ')
+    name, first_char = name.split(': ')
+    chars.insert(0, first_char)
     # Remove newline character from the last name
     chars[chars.length - 1] = chars[chars.length - 1].strip
     example = Story.new(name, chars)
     stories.insert(0, example)
   end
-
+  #Choose data to use, and then choose a prompt and give it the info
   choice = pick(stories)
-  case rand(2)
+  case rand(4)
     when 1
       relationship(choice[0], choice[1], choice[2])
-    else
+    when 2
+      past(choice[0], choice[1])
+    when 3
       plot(choice[0], choice[1])
+    else
+      future(choice[0], choice[1], choice[2])
   end
-
+  #Add additional inspiration
   inspiration = Card.new
-  inspiration.draw
   if inspiration.suit == 'major'
     puts('Tarot Card: ' + inspiration.name + ' (#' + inspiration.number.to_s + ')')
   else
     puts('Tarot Card: The ' + inspiration.number.to_s + ' of ' + inspiration.suit)
   end
-
 end
 
 main
