@@ -2,9 +2,9 @@
 # Author- Alexia Christie
 #
 # Recreation of project originally created in Python.
+require_relative 'card'
 
 # Story has a name and array of associated characters.
-
 Story = Struct.new(:name, :characters)
 
 # Picks a random story and two characters from it.
@@ -45,7 +45,7 @@ def plot(story, character)
 end
 
 
-# Gives prompt related to the relationship between characters.
+#Gives prompt related to the relationship between characters.
 def relationship(story, character, friend)
 
   case rand(3)
@@ -86,6 +86,14 @@ def main
       relationship(choice[0], choice[1], choice[2])
     else
       plot(choice[0], choice[1])
+  end
+
+  inspiration = Card.new
+  inspiration.draw
+  if inspiration.suit == 'major'
+    puts('Tarot Card: ' + inspiration.name + ' (#' + inspiration.number.to_s + ')')
+  else
+    puts('Tarot Card: The ' + inspiration.number.to_s + ' of ' + inspiration.suit)
   end
 
 end
