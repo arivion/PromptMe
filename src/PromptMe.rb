@@ -1,7 +1,8 @@
 # Uses a file containing established stories and characters to generate prompts.
-# Author- Alexia Christie
+# Author: Alexia Christie
 #
 # Recreation of project originally created in Python.
+
 require_relative 'card'
 
 # Story has a name and array of associated characters.
@@ -13,7 +14,6 @@ Story = Struct.new(:name, :characters)
 #
 # return: array with [story name, character 1, character 2]
 def pick(stories)
-
   # Choose a story and two characters from it.
   story_num = rand(stories.length)
   story_pick = stories[story_num]
@@ -31,7 +31,6 @@ end
 
 #Gives prompt related to the plot of the story.
 def plot(story, character)
-
   case rand(3)
     when 1
       time = 'expository'
@@ -41,13 +40,12 @@ def plot(story, character)
       time = 'resolving'
   end
   #Output
-  puts('Write about an important ' + time + ' event in ' + story +  ' that involved ' + character + '.')
+  puts("Write about an important #{time} event in #{story} that involved #{character}.")
 end
 
 
 #Gives prompt related to the relationship between characters.
 def relationship(story, character, friend)
-
   case rand(3)
     when 1
       time = 'early'
@@ -58,16 +56,14 @@ def relationship(story, character, friend)
   end
   #Output
   if character == friend
-    puts('Write about ' + character + ' from ' + story + ' and their ' + time +
-             ' self-image.')
+    puts("Write about #{character} from #{story} and their #{time} self-image.")
   else
-    puts('Write about the ' + time + ' relationship between ' + character +  ' and ' + friend + ' from ' + story + '.')
+    puts("Write about the #{time} relationship between #{character} and #{friend} from #{story}.")
   end
 end
 
 #Gives prompt related to a character's past
 def past(story, character)
-
   case rand(2)
     when 1
       mem = 'a pleasant'
@@ -75,27 +71,29 @@ def past(story, character)
       mem = 'an unpleasant'
   end
   #Output
-  puts('Write about ' + mem + ' memory of ' + character + ' from ' + story + '.')
+  puts("Write about #{mem} memory of #{character} from #{story}.")
 end
 
 #Gives prompt related to a character's future
 def future(story, character, friend)
-
   case rand(3)
     when 1
-      puts('How and when does ' + character + ' from ' + story + ' die?')
+      puts("How and when does #{character} from #{story} die?")
     when 2
-      puts('What does ' + character + ' from ' + story + ' do after the events of the story?')
+      puts("What does #{character} from #{story} do after the events of the story?")
     else
-      puts('What happens between ' + character + ' and ' + friend + ' from ' + story + ' after the events of the story?')
+      if character == friend
+        puts("What does #{character} from #{story} do after the events of the story?")
+      else
+        puts("What happens between #{character} and #{friend} from #{story} after the events of the story?")
+      end
   end
 end
 
 #Main function
 def main
-
   stories = []
-  # Open the file, with each line formatted as such:
+  # Open the file stories.txt, with each line formatted as such:
   # Story Name: Character 1, Character 2 ...
   File.open('stories.txt', 'rb').each do |line|
     name, *chars = line.split(', ')
@@ -121,9 +119,9 @@ def main
   #Add additional inspiration
   inspiration = Card.new
   if inspiration.suit == 'major'
-    puts('Tarot Card: ' + inspiration.name + ' (#' + inspiration.number.to_s + ')')
+    puts("Tarot Card: #{inspiration.name} (##{inspiration.number})")
   else
-    puts('Tarot Card: The ' + inspiration.number.to_s + ' of ' + inspiration.suit)
+    puts("Tarot Card: The #{inspiration.number.to_s} of #{inspiration.suit}")
   end
 end
 
