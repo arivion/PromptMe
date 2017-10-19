@@ -1,9 +1,20 @@
+# Represents a card randomly drawn from a standard tarot deck, chosen during initialization.
+#
+# Author: Alexia Christie
+
 class Card
   #Constants related to the structure of a deck
   TOTAL_CARDS = 78
   MINOR_ARCANA = 56
   SUIT_SIZE = 14
   NUM_SUITS = 4
+  #Constants related to the location of specific cards
+  ACE = 1
+  PAGE = 11
+  KNIGHT = 12
+  QUEEN = 13
+  KING = 14
+
   #Each card has a number and either a suit or a name
   attr_accessor :number, :suit, :name
 
@@ -22,15 +33,15 @@ class Card
   def pick_minor(card)
     @number = (card % SUIT_SIZE) + 1
     #Name ace and court cards
-    if @number == 1
+    if @number == ACE
       @number = 'Ace'
-    elsif @number == 11
+    elsif @number == PAGE
       @number = 'Page'
-    elsif @number == 12
+    elsif @number == KNIGHT
       @number = 'Knight'
-    elsif @number == 13
+    elsif @number == QUEEN
       @number = 'Queen'
-    elsif @number == 14
+    elsif @number == KING
       @number = 'King'
     end
     #Name the suit

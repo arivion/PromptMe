@@ -1,7 +1,6 @@
 # Uses a file containing established stories and characters to generate prompts.
-# Author: Alexia Christie
 #
-# Recreation of project originally created in Python.
+# Author: Alexia Christie
 
 require_relative 'card'
 
@@ -9,9 +8,7 @@ require_relative 'card'
 Story = Struct.new(:name, :characters)
 
 # Picks a random story and two characters from it.
-#
 # stories: array of stories
-#
 # return: array with [story name, character 1, character 2]
 def pick(stories)
   # Choose a story and two characters from it.
@@ -100,7 +97,7 @@ def main
     name, first_char = name.split(': ')
     chars.insert(0, first_char)
     # Remove newline character from the last name
-    chars[chars.length - 1] = chars[chars.length - 1].strip
+    chars[chars.length - 1] = chars[chars.length - 1].chop
     example = Story.new(name, chars)
     stories.insert(0, example)
   end
@@ -121,7 +118,7 @@ def main
   if inspiration.suit == 'major'
     puts("Tarot Card: #{inspiration.name} (##{inspiration.number})")
   else
-    puts("Tarot Card: The #{inspiration.number.to_s} of #{inspiration.suit}")
+    puts("Tarot Card: The #{inspiration.number} of #{inspiration.suit}")
   end
 end
 
