@@ -22,7 +22,7 @@ def pick(stories)
   friend_num = rand(story_pick.characters.length)
   friend_pick = story_pick.characters[friend_num]
 
-  return [story_name, character_pick, friend_pick]
+  [story_name, character_pick, friend_pick]
 end
 
 
