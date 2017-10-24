@@ -97,7 +97,7 @@ def main
     name, first_char = name.split(': ')
     chars.insert(0, first_char)
     # Remove newline character from the last name
-    chars[chars.length - 1] = chars[chars.length - 1].chop
+    chars[chars.length - 1] = chars[chars.length - 1].strip
     example = Story.new(name, chars)
     stories.insert(0, example)
   end
