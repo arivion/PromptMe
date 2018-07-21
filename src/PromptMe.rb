@@ -6,10 +6,11 @@ require_relative 'card'
 
 # Story has a name and array of associated characters.
 Story = Struct.new(:name, :characters)
+Pick = Struct.new(:story_name, :characters)
 
 # Picks a random story and two characters from it.
-# stories: array of stories
-# return: array with [story name, character 1, character 2]
+# stories: an array of Story objects
+# return: a Pick object
 def pick(stories)
   # Choose a story and two characters from it.
   story_num = rand(stories.length)
@@ -22,12 +23,12 @@ def pick(stories)
   friend_num = rand(story_pick.characters.length)
   friend_pick = story_pick.characters[friend_num]
 
-  [story_name, character_pick, friend_pick]
+  Pick.new(story_name, [character_pick, friend_pick])
 end
 
 
 #Gives prompt related to the plot of the story.
-def plot(story, character)
+def plot(pick)
   case rand(3)
     when 1
       time = 'expository'
@@ -37,12 +38,12 @@ def plot(story, character)
       time = 'resolving'
   end
   #Output
-  puts("Write about an important #{time} event in #{story} that involved #{character}.")
+  puts("Write about an important #{time} event in #{pick[:story_name]} that involved #{pick[:characters][0]}.")
 end
 
 
 #Gives prompt related to the relationship between characters.
-def relationship(story, character, friend)
+def relationship(pick)
   case rand(3)
     when 1
       time = 'early'
@@ -52,15 +53,15 @@ def relationship(story, character, friend)
       time = 'ultimate'
   end
   #Output
-  if character == friend
-    puts("Write about #{character} from #{story} and their #{time} self-image.")
+  if pick[:characters][0] == pick[:characters][1]
+    puts("Write about #{pick[:characters[0]]} from #{pick[:story_name]} and their #{time} self-image.")
   else
-    puts("Write about the #{time} relationship between #{character} and #{friend} from #{story}.")
+    puts("Write about the #{time} relationship between #{pick[:characters][0]} and #{pick[:characters][1]} from #{pick[:story_name]}.")
   end
 end
 
 #Gives prompt related to a character's past
-def past(story, character)
+def past(pick)
   case rand(2)
     when 1
       mem = 'a pleasant'
@@ -68,21 +69,21 @@ def past(story, character)
       mem = 'an unpleasant'
   end
   #Output
-  puts("Write about #{mem} memory of #{character} from #{story}.")
+  puts("Write about #{mem} memory of #{pick[:characters][0]} in #{pick[:story_name]}.")
 end
 
 #Gives prompt related to a character's future
-def future(story, character, friend)
+def future(pick)
   case rand(3)
     when 1
-      puts("How and when does #{character} from #{story} die?")
+      puts("How and when does #{pick[:characters][0]} from #{pick[:story_name]} die?")
     when 2
-      puts("What does #{character} from #{story} do after the events of the story?")
+      puts("What does #{pick[:characters][0]} from #{pick[:story_name]} do after the events of the story?")
     else
-      if character == friend
-        puts("What does #{character} from #{story} do after the events of the story?")
+      if pick[:characters][0] == pick[:characters][1]
+        puts("What does #{pick[:characters][0]} from #{pick[:story_name]} do after the events of the story?")
       else
-        puts("What happens between #{character} and #{friend} from #{story} after the events of the story?")
+        puts("What happens between #{pick[:characters][0]} and #{pick[:characters][1]} from #{pick[:story_name]} after the events of the story?")
       end
   end
 end
@@ -93,25 +94,24 @@ def main
   # Open the file stories.txt, with each line formatted as such:
   # Story Name: Character 1, Character 2 ...
   File.open('stories.txt', 'rb').each do |line|
-    name, *chars = line.split(', ')
-    name, first_char = name.split(': ')
-    chars.insert(0, first_char)
+    name, char_list = line.split(': ')
+    *chars = char_list.split(', ')
     # Remove newline character from the last name
     chars[chars.length - 1] = chars[chars.length - 1].strip
     example = Story.new(name, chars)
     stories.insert(0, example)
   end
-  #Choose data to use, and then choose a prompt and give it the info
+  #At this point, each category has equal weight as they each have the same number of branches
   choice = pick(stories)
   case rand(4)
     when 1
-      relationship(choice[0], choice[1], choice[2])
+      relationship(choice)
     when 2
-      past(choice[0], choice[1])
+      past(choice)
     when 3
-      plot(choice[0], choice[1])
+      plot(choice)
     else
-      future(choice[0], choice[1], choice[2])
+      future(choice)
   end
   #Add additional inspiration
   inspiration = Card.new
