@@ -50,13 +50,13 @@ def relationship(pick)
     when 2
       time = 'developing'
     else
-      time = 'ultimate'
+      time = 'fully-developed'
   end
   #Output
   if pick[:characters][0] == pick[:characters][1]
-    puts("Write about #{pick[:characters[0]]} from #{pick[:story_name]} and their #{time} self-image.")
+    puts("How was #{pick[:characters[0]]} from #{pick[:story_name]}'s #{time} self-image?")
   else
-    puts("Write about the #{time} relationship between #{pick[:characters][0]} and #{pick[:characters][1]} from #{pick[:story_name]}.")
+    puts("How was the #{time} relationship between #{pick[:characters][0]} and #{pick[:characters][1]} from #{pick[:story_name]}?")
   end
 end
 
@@ -64,12 +64,12 @@ end
 def past(pick)
   case rand(2)
     when 1
-      mem = 'a pleasant'
+      mem = 'pleasant'
     else
-      mem = 'an unpleasant'
+      mem = 'unpleasant'
   end
   #Output
-  puts("Write about #{mem} memory of #{pick[:characters][0]} in #{pick[:story_name]}.")
+  puts("What is one of #{pick[:characters][0]} from #{pick[:story_name]}'s most #{mem} memories?")
 end
 
 #Gives prompt related to a character's future
@@ -88,6 +88,19 @@ def future(pick)
   end
 end
 
+#Gives prompt related to a character's alliances
+def alliances(pick)
+  puts("Think about an organization or faction that #{pick[:characters][0]} from #{pick[:story_name]} belongs to.")
+  case rand(3)
+    when 1
+      puts('Why did they originally become a part of this organization or faction?')
+    when 2
+      puts('Why are they still in this organization or faction?')
+    else
+      puts('Will they ever leave it?')
+  end
+end
+
 #Main function
 def main
   stories = []
@@ -103,13 +116,15 @@ def main
   end
   #At this point, each category has equal weight as they each have the same number of branches
   choice = pick(stories)
-  case rand(4)
+  case rand(5)
     when 1
       relationship(choice)
     when 2
       past(choice)
     when 3
       plot(choice)
+    when 4
+      alliances(choice)
     else
       future(choice)
   end
