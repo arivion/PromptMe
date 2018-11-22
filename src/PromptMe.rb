@@ -29,6 +29,7 @@ end
 
 #Gives prompt related to the plot of the story.
 def plot(pick)
+
   case rand(3)
     when 1
       time = 'expository'
@@ -37,10 +38,10 @@ def plot(pick)
     else
       time = 'resolving'
   end
+
   #Output
   puts("Write about an important #{time} event in #{pick[:story_name]} that involved #{pick[:characters][0]}.")
 end
-
 
 #Gives prompt related to the relationship between characters.
 def relationship(pick)
@@ -52,6 +53,7 @@ def relationship(pick)
     else
       time = 'fully-developed'
   end
+
   #Output
   if pick[:characters][0] == pick[:characters][1]
     puts("How was #{pick[:characters[0]]} from #{pick[:story_name]}'s #{time} self-image?")
@@ -68,6 +70,7 @@ def past(pick)
     else
       mem = 'unpleasant'
   end
+
   #Output
   puts("What is one of #{pick[:characters][0]} from #{pick[:story_name]}'s most #{mem} memories?")
 end
@@ -114,6 +117,7 @@ def main
     example = Story.new(name, chars)
     stories.insert(0, example)
   end
+
   #At this point, each category has equal weight as they each have the same number of branches
   choice = pick(stories)
   case rand(5)
@@ -128,6 +132,7 @@ def main
     else
       future(choice)
   end
+
   #Add additional inspiration
   inspiration = Card.new
   if inspiration.suit == 'major'

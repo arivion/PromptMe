@@ -3,6 +3,7 @@
 # Author: Alexia Christie
 
 class Card
+
   #Constants related to the structure of a deck
   TOTAL_CARDS = 78
   MINOR_ARCANA = 56
@@ -44,6 +45,7 @@ class Card
     elsif @number == KING
       @number = 'King'
     end
+
     #Name the suit
     case (card % NUM_SUITS)
       when 0
